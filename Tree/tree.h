@@ -6,13 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-// #define POISON "BOOBA"
+#define POISON 0xBEEBA
 
 typedef int data_t;
 
 typedef enum TYPES {
 	OPER,
-	NUM
+	NUM,
+	FUNC
 } branch_type_t;
 
 typedef struct branch {
@@ -36,7 +37,7 @@ typedef enum ERRORS {
 branch_t *Branch (branch_t *parent, data_t data);
 branch_t *Branch_ (branch_t *parent, data_t data, branch_type_t type);
 void RecursiveDestruct (branch_t *branch);
-tree_t *TreeConstruct (tree_t *tree);
+void TreeConstruct (tree_t *tree);
 void TreeDestruct (tree_t *tree);
 void Graph (FILE *graph, branch_t *branch);
 void GVDump (tree_t *tree);

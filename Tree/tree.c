@@ -1,8 +1,6 @@
 #include "tree.h"
 
-#define DINAMIC_DATA
-
-const data_t POISON = 0xBEEBA;
+// const data_t POISON = 0xBEEBA;
 
 const char *GV = "graph.gv";
 
@@ -42,10 +40,9 @@ void RecursiveDestruct (branch_t *branch) {
 	return;
 }
 
-tree_t *TreeConstruct (tree_t *tree) {
-	tree->root = Branch (NULL, NULL);
+void TreeConstruct (tree_t *tree) {
+	tree->root = Branch (NULL, POISON);
 	tree->size = 0;
-	return tree;
 }
 
 void TreeDestruct (tree_t *tree) {
@@ -54,28 +51,28 @@ void TreeDestruct (tree_t *tree) {
 	tree->size = 0;
 }
 
-void Graph (FILE *graph, branch_t *branch) {
-	if (branch->left != NULL) {
-		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"NO\"]\n", branch->data, branch->left->data);
-		Graph (graph, branch->left);
-	}
-	if (branch->right != NULL) {
-		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"YES\"]\n", branch->data, branch->right->data);
-		Graph (graph, branch->right);
-	}
-	return;
-}
+// void Graph (FILE *graph, branch_t *branch) {
+// 	if (branch->left != NULL) {
+// 		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"NO\"]\n", branch->data, branch->left->data);
+// 		Graph (graph, branch->left);
+// 	}
+// 	if (branch->right != NULL) {
+// 		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"YES\"]\n", branch->data, branch->right->data);
+// 		Graph (graph, branch->right);
+// 	}
+// 	return;
+// }
 
-void GVDump (tree_t *tree) {
-	FILE *graph = fopen (GV, "w");
-	branch_t *branch = tree->root;
-	fprintf (graph, "digraph TREE {\n");
-	fprintf (graph, "	node [shape = box]\n");
-	Graph (graph, branch);
-	fprintf (graph, "}\n");
-	fclose (graph);
-	return;
-}
+// void GVDump (tree_t *tree) {
+// 	FILE *graph = fopen (GV, "w");
+// 	branch_t *branch = tree->root;
+// 	fprintf (graph, "digraph TREE {\n");
+// 	fprintf (graph, "	node [shape = box]\n");
+// 	Graph (graph, branch);
+// 	fprintf (graph, "}\n");
+// 	fclose (graph);
+// 	return;
+// }
 
 void InsertBranch (branch_t *parent, size_t dir, data_t data) {
 	branch_t *tmp;
