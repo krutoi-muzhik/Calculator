@@ -22,28 +22,28 @@ size_t GetNum (char *buf, branch_t *branch) {
 	return len;
 }
 
-size_t GetPlus (char *buf, branch_t *current) {
+size_t GetPlus (char *buf, branch_t **current) {
 	size_t len = 0;
 	while (isspace (buf[len])) len++;
-	len += GetNum (buf + len, current);
+	len += GetNum (buf + len, *current);
 	while (isspace (buf[len])) len++;
 
 	while ((buf[len] == '-') || (buf[len] == '+')) {
-		current->parent = Branch_ (NULL, buf[len], OPER);
-		current->parent->left = current;
-		current = current->parent;
+		(*current)->parent = Branch_ (NULL, buf[len], OPER);
+		(*current)->parent->left = (*current);
+		(*current) = (*current)->parent;
 
 		len++;
 		while (isspace (buf[len])) len++;
-		current->right = Branch_ (current, POISON, NUM);
-		len += GetNum (buf + len, current->right);
+		(*current)->right = Branch_ (*current, POISON, NUM);
+		len += GetNum (buf + len, (*current)->right);
 
-		if (current->left->type == OPER) {
-			printf ("%c ", current->left->data);
-		} else if (current->left->type == NUM) {
-			printf ("%d ", current->left->data);
+		if ((*current)->left->type == OPER) {
+			printf ("%c ", (*current)->left->data);
+		} else if ((*current)->left->type == NUM) {
+			printf ("%d ", (*current)->left->data);
 		}
-		printf ("%c %d\n", current->data, current->right->data);
+		printf ("%c %d\n", (*current)->data, (*current)->right->data);
 
 		while (isspace (buf[len])) len++;
 	}
@@ -75,7 +75,10 @@ void Input (const char *pathname, tree_t *tree) {
 	size_t nread = fread (buf, sizeof (char), BUF_SIZE, inp);
 	fclose (inp);
 
-	len = GetPlus (buf, tree->root);
+	branch_t *tmp = Branch (NULL, POISON);
+
+	len = GetPlus (buf, &tmp);
+	tree->root = tmp;
 	printf ("nread = %ld, len = %ld\n", nread, len);
 
 }
@@ -114,8 +117,8 @@ int main () {
 	// } else {
 	// 	printf ("unknown type\n");
 	// }
-	printf ("%d\n", tree.root->data);
-	// SaveBase ("output.txt", &tree);
+	// printf ("%d\n", tree.root->data);
+	SaveBase ("output.txt", &tree);
 
 	exit (EXIT_SUCCESS);
 }
