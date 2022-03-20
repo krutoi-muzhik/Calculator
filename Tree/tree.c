@@ -1,8 +1,7 @@
 #include "tree.h"
+#include "../calc.h"
 
 // const data_t POISON = 0xBEEBA;
-
-const char *GV = "graph.gv";
 
 branch_t *Branch (branch_t *parent, data_t data) {
 	branch_t *branch = calloc (1, sizeof (branch_t));
@@ -51,28 +50,72 @@ void TreeDestruct (tree_t *tree) {
 	tree->size = 0;
 }
 
-// void Graph (FILE *graph, branch_t *branch) {
-// 	if (branch->left != NULL) {
-// 		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"NO\"]\n", branch->data, branch->left->data);
-// 		Graph (graph, branch->left);
-// 	}
-// 	if (branch->right != NULL) {
-// 		fprintf (graph, "	\"%s\" -> \"%s\" [label = \"YES\"]\n", branch->data, branch->right->data);
-// 		Graph (graph, branch->right);
-// 	}
-// 	return;
-// }
+#define Out(func) fprintf (graph, "\tpeak%p [label = \"%s\"];\n", branch, func); break;
 
-// void GVDump (tree_t *tree) {
-// 	FILE *graph = fopen (GV, "w");
-// 	branch_t *branch = tree->root;
-// 	fprintf (graph, "digraph TREE {\n");
-// 	fprintf (graph, "	node [shape = box]\n");
-// 	Graph (graph, branch);
-// 	fprintf (graph, "}\n");
-// 	fclose (graph);
-// 	return;
-// }
+void Graph (FILE *graph, branch_t *branch) {
+	switch (branch->type) {
+		case BINAR:
+			switch (branch->data) {
+				case PLUS:	Out("+")
+				case MINUS:	Out("-")
+				case MUL:	Out("*")
+				case DIV:	Out("/")
+				case POW:	Out("^")
+				case LOG:	Out("log")
+			}
+			break;
+		case UNAR:
+			switch (branch->data) {
+				case SIN:	Out("sin")
+				case COS:	Out("cos")
+				case TAN:	Out("tan")
+				case COT:	Out("cot")
+				case ASIN:	Out("asin")
+				case ACOS:	Out("acos")
+				case ATAN:	Out("atan")
+				case ACOT:	Out("acot")
+				case SH:	Out("sh")
+				case CH:	Out("ch")
+				case TANH:	Out("tanh")
+				case COTH:	Out("coth")
+				case ASH:	Out("ash")
+				case ACH:	Out("ach")
+				case ATANH:	Out("atanh")
+				case ACOTH:	Out("acoth")
+				case EXP:	Out("exp")
+				case SQRT:	Out("sqrt")
+				case LN:	Out("ln")
+				case LG:	Out("lg")
+				case FACT:	Out("fact")
+				case ABS:	Out("abs")
+			}
+			break;
+		case NUM:
+			fprintf (graph, "\tpeak%p [label = \"%d\"];\n", branch, branch->data);
+			break;
+	}
+
+	if (branch->left != NULL) {
+		fprintf (graph, "\t\tpeak%p -> peak%p\n", branch, branch->left);
+		Graph (graph, branch->left);
+	}
+	if (branch->right != NULL) {
+		fprintf (graph, "\t\tpeak%p -> peak%p\n", branch, branch->right);
+		Graph (graph, branch->right);
+	}
+	return;
+}
+
+void GVDump (const char *pathname, tree_t *tree) {
+	FILE *graph = fopen (pathname, "w");
+	branch_t *branch = tree->root;
+	fprintf (graph, "digraph TREE {\n");
+	fprintf (graph, "	node [shape = box]\n\n");
+	Graph (graph, branch);
+	fprintf (graph, "}\n");
+	fclose (graph);
+	return;
+}
 
 void InsertBranch (branch_t *parent, size_t dir, data_t data) {
 	branch_t *tmp;

@@ -11,9 +11,9 @@
 typedef int data_t;
 
 typedef enum TYPES {
-	OPER,
+	BINAR,
 	NUM,
-	FUNC
+	UNAR
 } branch_type_t;
 
 typedef struct branch {
@@ -40,7 +40,7 @@ void RecursiveDestruct (branch_t *branch);
 void TreeConstruct (tree_t *tree);
 void TreeDestruct (tree_t *tree);
 void Graph (FILE *graph, branch_t *branch);
-void GVDump (tree_t *tree);
+void GVDump (const char *pathname, tree_t *tree);
 void InsertBranch (branch_t *parent, size_t dir, data_t data);
 
 #endif
