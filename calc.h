@@ -50,3 +50,6 @@ void Input (const char *pathname, tree_t *tree);
 void WriteBase (FILE *out, branch_t *branch);
 void SaveBase (const char *pathname, tree_t* tree);
 size_t GetPow (char *buf, branch_t **current);
+size_t GetLog (char *buf, branch_t **current);
+size_t GetNF (char *buf, branch_t *branch);
+size_t GetFunc (char *buf, branch_t *current);

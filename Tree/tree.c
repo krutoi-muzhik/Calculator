@@ -88,10 +88,11 @@ void Graph (FILE *graph, branch_t *branch) {
 				case LG:	Out("lg")
 				case FACT:	Out("fact")
 				case ABS:	Out("abs")
+				default: printf ("unlnown oper %d\n", branch->data);
 			}
 			break;
 		case NUM:
-			fprintf (graph, "\tpeak%p [label = \"%d\"];\n", branch, branch->data);
+			fprintf (graph, "\tpeak%p [label = \"%d\" shape = box];\n", branch, branch->data);
 			break;
 	}
 
@@ -109,8 +110,7 @@ void Graph (FILE *graph, branch_t *branch) {
 void GVDump (const char *pathname, tree_t *tree) {
 	FILE *graph = fopen (pathname, "w");
 	branch_t *branch = tree->root;
-	fprintf (graph, "digraph TREE {\n");
-	fprintf (graph, "	node [shape = box]\n\n");
+	fprintf (graph, "digraph TREE {\n\n");
 	Graph (graph, branch);
 	fprintf (graph, "}\n");
 	fclose (graph);

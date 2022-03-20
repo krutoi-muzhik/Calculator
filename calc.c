@@ -5,6 +5,13 @@
 
 #define skiptill(c) while (buf[len] != c) len++;
 
+size_t GetNF (char *buf, branch_t *branch) {
+	if (isalpha (buf[0])) {
+		return GetFunc (buf, branch);
+	}
+	return GetNum (buf, branch);
+}
+
 size_t GetNum (char *buf, branch_t *branch) {
 	size_t len = 0;
 	branch->type = NUM;
@@ -29,7 +36,7 @@ size_t GetNum (char *buf, branch_t *branch) {
 size_t GetMulDiv (char *buf, branch_t **current) {
 	size_t len = 0;
 	skipspace
-	len += GetPow (buf + len, current);
+	len += GetLog (buf + len, current);
 	skipspace
 
 	while ((buf[len] == '*') || (buf[len] == '/')) {
@@ -40,7 +47,7 @@ size_t GetMulDiv (char *buf, branch_t **current) {
 		len++;
 		skipspace
 		(*current)->right = Branch (*current, POISON);
-		len += GetPow (buf + len, &(*current)->right);
+		len += GetLog (buf + len, &(*current)->right);
 
 		skipspace
 	}
@@ -71,7 +78,7 @@ size_t GetPlusMinus (char *buf, branch_t **current) {
 size_t GetPow (char *buf, branch_t **current) {
 	size_t len = 0;
 	skipspace
-	len += GetNum (buf + len, *current);
+	len += GetNF (buf + len, *current);
 	skipspace
 
 	if (buf[len] == '^') {
@@ -82,7 +89,28 @@ size_t GetPow (char *buf, branch_t **current) {
 		len++;
 		skipspace
 		(*current)->right = Branch (*current, POISON);
-		len += GetNum (buf + len, (*current)->right);
+		len += GetNF (buf + len, (*current)->right);
+
+		skipspace
+	}
+	return len;
+}
+
+size_t GetLog (char *buf, branch_t **current) {
+	size_t len = 0;
+	skipspace
+	len += GetPow (buf + len, current);
+	skipspace
+
+	if ((buf[len] == 'l') && (buf[len + 1] == 'o') && (buf[len + 2] == 'g')) {
+		(*current)->parent = Branch_ (NULL, LOG, BINAR);
+		(*current)->parent->left = (*current);
+		(*current) = (*current)->parent;
+
+		len += 3;
+		skipspace
+		(*current)->right = Branch (*current, POISON);
+		len += GetPow (buf + len, &(*current)->right);
 
 		skipspace
 	}
@@ -93,9 +121,10 @@ size_t GetFunc (char *buf, branch_t *current) {
 	size_t len = 0;
 	skipspace
 
+	current->type = UNAR;
 	char *func = (char *) calloc (FUNC_LEN, sizeof (char));
 	size_t i;
-	for (i = 0; isalpha (buf[len + i]); i++) {
+	for (i = 0; isalpha (buf[len]); i++) {
 		if (i >= FUNC_LEN) {
 			printf ("too long function %s.. \n", func);
 			break;
@@ -104,12 +133,15 @@ size_t GetFunc (char *buf, branch_t *current) {
 		len++;
 	}
 
+	printf ("%s\n", func);
+
 	skiptill ('(')
 	len++;
 
 	#define DEF_UNAR(oper_num, oper, performance) {				\
 		if (!strcmp (oper, func)) {								\
 			current->data = oper_num;							\
+			printf ("%s = %d\n", oper, oper_num);				\
 			current->left = Branch (current, POISON);			\
 			len += GetPlusMinus (buf + len, &(current->left));	\
 		}														\
@@ -119,6 +151,8 @@ size_t GetFunc (char *buf, branch_t *current) {
 	#undef DEF_UNAR
 
 	free (func);
+	skiptill (')')
+	len++;
 	return len;
 
 }
@@ -152,7 +186,6 @@ double Count (branch_t *branch) {
 	} else if (branch->type == NUM) {
 		return branch->data;
 	}
-
 }
 
 void Calculate (tree_t *tree) {
