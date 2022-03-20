@@ -3,7 +3,8 @@
 #include <math.h>
 
 enum SIZES {
-	BUF_SIZE = 1024
+	BUF_SIZE = 1024,
+	FUNC_LEN = 5
 };
 
 enum BINARS {
@@ -15,7 +16,7 @@ enum BINARS {
 	LOG = 0
 };
 
-enum UNARS {
+enum OPERS {
 	SIN = 1,
 	COS = 2,
 	TAN = 3,
@@ -48,3 +49,4 @@ void Calculate (tree_t *tree);
 void Input (const char *pathname, tree_t *tree);
 void WriteBase (FILE *out, branch_t *branch);
 void SaveBase (const char *pathname, tree_t* tree);
+size_t GetPow (char *buf, branch_t **current);

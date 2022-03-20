@@ -114,8 +114,6 @@ void GVDump (const char *pathname, tree_t *tree) {
 	Graph (graph, branch);
 	fprintf (graph, "}\n");
 	fclose (graph);
-	system ("graph.gv -Tpng D:\\progi\\Differencator\\Graph.dot -o D:\\progi\\Differencator\\GraphDump.png");
-	system ("start D:\\progi\\Differencator\\GraphDump.png");
 	return;
 }
 

@@ -1,37 +1,45 @@
 digraph TREE {
 	node [shape = box]
 
-	peak0x55c1ab1d7da0 [label = "+"];
-		peak0x55c1ab1d7da0 -> peak0x55c1ab1d7ce0
-	peak0x55c1ab1d7ce0 [label = "-"];
-		peak0x55c1ab1d7ce0 -> peak0x55c1ab1d7c20
-	peak0x55c1ab1d7c20 [label = "-"];
-		peak0x55c1ab1d7c20 -> peak0x55c1ab1d7b60
-	peak0x55c1ab1d7b60 [label = "+"];
-		peak0x55c1ab1d7b60 -> peak0x55c1ab1d76f0
-	peak0x55c1ab1d76f0 [label = "*"];
-		peak0x55c1ab1d76f0 -> peak0x55c1ab1d76c0
-	peak0x55c1ab1d76c0 [label = "12"];
-		peak0x55c1ab1d76f0 -> peak0x55c1ab1d7720
-	peak0x55c1ab1d7720 [label = "5"];
-		peak0x55c1ab1d7b60 -> peak0x55c1ab1d7bc0
-	peak0x55c1ab1d7bc0 [label = "*"];
-		peak0x55c1ab1d7bc0 -> peak0x55c1ab1d7b90
-	peak0x55c1ab1d7b90 [label = "87"];
-		peak0x55c1ab1d7bc0 -> peak0x55c1ab1d7bf0
-	peak0x55c1ab1d7bf0 [label = "2"];
-		peak0x55c1ab1d7c20 -> peak0x55c1ab1d7c80
-	peak0x55c1ab1d7c80 [label = "*"];
-		peak0x55c1ab1d7c80 -> peak0x55c1ab1d7c50
-	peak0x55c1ab1d7c50 [label = "34"];
-		peak0x55c1ab1d7c80 -> peak0x55c1ab1d7cb0
-	peak0x55c1ab1d7cb0 [label = "10"];
-		peak0x55c1ab1d7ce0 -> peak0x55c1ab1d7d40
-	peak0x55c1ab1d7d40 [label = "/"];
-		peak0x55c1ab1d7d40 -> peak0x55c1ab1d7d10
-	peak0x55c1ab1d7d10 [label = "55"];
-		peak0x55c1ab1d7d40 -> peak0x55c1ab1d7d70
-	peak0x55c1ab1d7d70 [label = "5"];
-		peak0x55c1ab1d7da0 -> peak0x55c1ab1d7dd0
-	peak0x55c1ab1d7dd0 [label = "66"];
+	peak0x55ecee3f79f0 [label = "-"];
+		peak0x55ecee3f79f0 -> peak0x55ecee3f7930
+	peak0x55ecee3f7930 [label = "-"];
+		peak0x55ecee3f7930 -> peak0x55ecee3f7870
+	peak0x55ecee3f7870 [label = "-"];
+		peak0x55ecee3f7870 -> peak0x55ecee3f77b0
+	peak0x55ecee3f77b0 [label = "+"];
+		peak0x55ecee3f77b0 -> peak0x55ecee3f76f0
+	peak0x55ecee3f76f0 [label = "*"];
+		peak0x55ecee3f76f0 -> peak0x55ecee3f76c0
+	peak0x55ecee3f76c0 [label = "12"];
+		peak0x55ecee3f76f0 -> peak0x55ecee3f7750
+	peak0x55ecee3f7750 [label = "^"];
+		peak0x55ecee3f7750 -> peak0x55ecee3f7720
+	peak0x55ecee3f7720 [label = "5"];
+		peak0x55ecee3f7750 -> peak0x55ecee3f7780
+	peak0x55ecee3f7780 [label = "2"];
+		peak0x55ecee3f77b0 -> peak0x55ecee3f7810
+	peak0x55ecee3f7810 [label = "*"];
+		peak0x55ecee3f7810 -> peak0x55ecee3f77e0
+	peak0x55ecee3f77e0 [label = "87"];
+		peak0x55ecee3f7810 -> peak0x55ecee3f7840
+	peak0x55ecee3f7840 [label = "2"];
+		peak0x55ecee3f7870 -> peak0x55ecee3f78d0
+	peak0x55ecee3f78d0 [label = "*"];
+		peak0x55ecee3f78d0 -> peak0x55ecee3f78a0
+	peak0x55ecee3f78a0 [label = "34"];
+		peak0x55ecee3f78d0 -> peak0x55ecee3f7900
+	peak0x55ecee3f7900 [label = "10"];
+		peak0x55ecee3f7930 -> peak0x55ecee3f7990
+	peak0x55ecee3f7990 [label = "/"];
+		peak0x55ecee3f7990 -> peak0x55ecee3f7960
+	peak0x55ecee3f7960 [label = "55"];
+		peak0x55ecee3f7990 -> peak0x55ecee3f79c0
+	peak0x55ecee3f79c0 [label = "5"];
+		peak0x55ecee3f79f0 -> peak0x55ecee3f7a50
+	peak0x55ecee3f7a50 [label = "^"];
+		peak0x55ecee3f7a50 -> peak0x55ecee3f7a20
+	peak0x55ecee3f7a20 [label = "66"];
+		peak0x55ecee3f7a50 -> peak0x55ecee3f7a80
+	peak0x55ecee3f7a80 [label = "2"];
 }

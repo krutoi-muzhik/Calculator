@@ -3,6 +3,8 @@
 
 #define skipspace while (isspace (buf[len])) len++;
 
+#define skiptill(c) while (buf[len] != c) len++;
+
 size_t GetNum (char *buf, branch_t *branch) {
 	size_t len = 0;
 	branch->type = NUM;
@@ -27,7 +29,7 @@ size_t GetNum (char *buf, branch_t *branch) {
 size_t GetMulDiv (char *buf, branch_t **current) {
 	size_t len = 0;
 	skipspace
-	len += GetNum (buf + len, *current);
+	len += GetPow (buf + len, current);
 	skipspace
 
 	while ((buf[len] == '*') || (buf[len] == '/')) {
@@ -37,15 +39,8 @@ size_t GetMulDiv (char *buf, branch_t **current) {
 
 		len++;
 		skipspace
-		(*current)->right = Branch_ (*current, POISON, NUM);
-		len += GetNum (buf + len, (*current)->right);
-
-		if ((*current)->left->type == BINAR) {
-			printf ("%c ", (*current)->left->data);
-		} else if ((*current)->left->type == NUM) {
-			printf ("%d ", (*current)->left->data);
-		}
-		printf ("%c %d\n", (*current)->data, (*current)->right->data);
+		(*current)->right = Branch (*current, POISON);
+		len += GetPow (buf + len, &(*current)->right);
 
 		skipspace
 	}
@@ -65,19 +60,67 @@ size_t GetPlusMinus (char *buf, branch_t **current) {
 
 		len++;
 		skipspace
-		(*current)->right = Branch_ (*current, POISON, NUM);
+		(*current)->right = Branch (*current, POISON);
 		len += GetMulDiv (buf + len, &((*current)->right));
-
-		if ((*current)->left->type == BINAR) {
-			printf ("%c ", (*current)->left->data);
-		} else if ((*current)->left->type == NUM) {
-			printf ("%d ", (*current)->left->data);
-		}
-		printf ("%c %d\n", (*current)->data, (*current)->right->data);
 
 		skipspace
 	}
- 
+	return len;
+}
+
+size_t GetPow (char *buf, branch_t **current) {
+	size_t len = 0;
+	skipspace
+	len += GetNum (buf + len, *current);
+	skipspace
+
+	if (buf[len] == '^') {
+		(*current)->parent = Branch_ (NULL, '^', BINAR);
+		(*current)->parent->left = (*current);
+		(*current) = (*current)->parent;
+
+		len++;
+		skipspace
+		(*current)->right = Branch (*current, POISON);
+		len += GetNum (buf + len, (*current)->right);
+
+		skipspace
+	}
+	return len;
+}
+
+size_t GetFunc (char *buf, branch_t *current) {
+	size_t len = 0;
+	skipspace
+
+	char *func = (char *) calloc (FUNC_LEN, sizeof (char));
+	size_t i;
+	for (i = 0; isalpha (buf[len + i]); i++) {
+		if (i >= FUNC_LEN) {
+			printf ("too long function %s.. \n", func);
+			break;
+		}
+		func[i] = buf[len];
+		len++;
+	}
+
+	skiptill ('(')
+	len++;
+
+	#define DEF_UNAR(oper_num, oper, performance) {				\
+		if (!strcmp (oper, func)) {								\
+			current->data = oper_num;							\
+			current->left = Branch (current, POISON);			\
+			len += GetPlusMinus (buf + len, &(current->left));	\
+		}														\
+	}															// end of define
+
+	#include "cmd/oper_unar.h"
+	#undef DEF_UNAR
+
+	free (func);
+	return len;
+
 }
 
 int isoper (char c) {
