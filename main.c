@@ -14,7 +14,7 @@ int main () {
 	// printf ("%d\n", tree.root->data);
 	SaveBase ("output.txt", &tree);
 	Calculate (&tree);
-	GVDump ("graph1.gv", &tree);
+	GVDump ("graph.gv", &tree);
 
 	exit (EXIT_SUCCESS);
 }

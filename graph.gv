@@ -1,0 +1,37 @@
+digraph TREE {
+	node [shape = box]
+
+	peak0x55c1ab1d7da0 [label = "+"];
+		peak0x55c1ab1d7da0 -> peak0x55c1ab1d7ce0
+	peak0x55c1ab1d7ce0 [label = "-"];
+		peak0x55c1ab1d7ce0 -> peak0x55c1ab1d7c20
+	peak0x55c1ab1d7c20 [label = "-"];
+		peak0x55c1ab1d7c20 -> peak0x55c1ab1d7b60
+	peak0x55c1ab1d7b60 [label = "+"];
+		peak0x55c1ab1d7b60 -> peak0x55c1ab1d76f0
+	peak0x55c1ab1d76f0 [label = "*"];
+		peak0x55c1ab1d76f0 -> peak0x55c1ab1d76c0
+	peak0x55c1ab1d76c0 [label = "12"];
+		peak0x55c1ab1d76f0 -> peak0x55c1ab1d7720
+	peak0x55c1ab1d7720 [label = "5"];
+		peak0x55c1ab1d7b60 -> peak0x55c1ab1d7bc0
+	peak0x55c1ab1d7bc0 [label = "*"];
+		peak0x55c1ab1d7bc0 -> peak0x55c1ab1d7b90
+	peak0x55c1ab1d7b90 [label = "87"];
+		peak0x55c1ab1d7bc0 -> peak0x55c1ab1d7bf0
+	peak0x55c1ab1d7bf0 [label = "2"];
+		peak0x55c1ab1d7c20 -> peak0x55c1ab1d7c80
+	peak0x55c1ab1d7c80 [label = "*"];
+		peak0x55c1ab1d7c80 -> peak0x55c1ab1d7c50
+	peak0x55c1ab1d7c50 [label = "34"];
+		peak0x55c1ab1d7c80 -> peak0x55c1ab1d7cb0
+	peak0x55c1ab1d7cb0 [label = "10"];
+		peak0x55c1ab1d7ce0 -> peak0x55c1ab1d7d40
+	peak0x55c1ab1d7d40 [label = "/"];
+		peak0x55c1ab1d7d40 -> peak0x55c1ab1d7d10
+	peak0x55c1ab1d7d10 [label = "55"];
+		peak0x55c1ab1d7d40 -> peak0x55c1ab1d7d70
+	peak0x55c1ab1d7d70 [label = "5"];
+		peak0x55c1ab1d7da0 -> peak0x55c1ab1d7dd0
+	peak0x55c1ab1d7dd0 [label = "66"];
+}
