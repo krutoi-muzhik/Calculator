@@ -133,15 +133,12 @@ size_t GetFunc (char *buf, branch_t *current) {
 		len++;
 	}
 
-	printf ("%s\n", func);
-
 	skiptill ('(')
 	len++;
 
 	#define DEF_UNAR(oper_num, oper, performance) {				\
 		if (!strcmp (oper, func)) {								\
 			current->data = oper_num;							\
-			printf ("%s = %d\n", oper, oper_num);				\
 			current->left = Branch (current, POISON);			\
 			len += GetPlusMinus (buf + len, &(current->left));	\
 		}														\
