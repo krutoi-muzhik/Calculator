@@ -26,9 +26,11 @@ GetFunc ::= func(GetPlusMinus)
 GetNum := ['0'-'9']+
 ```
 
-After building a tree:
+Example of tree:
 
 ![tree](https://github.com/krutoi-muzhik/Calculator/blob/Main/graph/expression.png)
+
+## Counting
 
 The programm counts it from the root. Here is the main counting function:
 
